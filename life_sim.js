@@ -50,15 +50,16 @@ particles = []
 }
 
 
-yellow = create(200,"yellow")
-red = create(200,"red")
-green = create(200, "green")
+let yellow = create(200,"yellow")
+let red = create(200,"red")
+let green = create(200, "green")
 
     update=()=>{
-    rule(yellow,green, 0.1)
-        rule(green,red,-0.01)
-        rule(green,green,-0.01)
-        rule(red, yellow, -0.03)
+        rule(green, yellow, 0.03)
+        rule(red, yellow, -0.1)
+        rule(green, red, 0.03)
+        rule(yellow,green, 0.02)
+        rule(red, red, 0.5)
     m.clearRect(0,0,500,500)
     draw(0,0,"black",500)
     for(i=0; i<particles.length; i++){
@@ -68,3 +69,74 @@ green = create(200, "green")
     }
 
 update()
+
+const particle_magnitude = document.getElementById("particle_mag");
+
+
+particle_magnitude.addEventListener("change", function(){
+    let p = particles.length
+    let g = this.value
+    particles = []
+    yellow = create(30 * g,"yellow")
+    red = create(30 * g,"red")
+    green = create(30 * g, "green")
+    m.clearRect(0,0,500,500)
+    draw(0,0,"black",500)
+    document.getElementById("particle_count").innerHTML = p;
+
+})
+
+const selectElement_color_1 = document.getElementById("color_select_1");
+const selectElement_action_1 = document.getElementById("action_select_1");
+const selectElement_color_2 = document.getElementById("color_select_2");
+const selectElement_mag_1 = document.getElementById("magnitude_1");
+const selectElement_submit_1 = document.getElementById("submit1");
+
+    let userColors = {}
+    selectElement_color_1.addEventListener("change", function() {
+        let a = this.value;
+        console.log(a);
+        userColors["color1"] = a
+        // userColors.push(a.toString())
+    })
+    selectElement_color_2.addEventListener("change", function() {
+        let b = this.value;
+        console.log(b);
+        userColors["color2"] = b
+        // userColors.push(b.toString())
+    })
+    selectElement_mag_1.addEventListener("change", function() {
+       let d = this.value;
+       userColors["mag"] = d
+    console.log(d);
+})
+    selectElement_action_1.addEventListener("change", function() {
+        let c = this.value;
+        if(c === "attract"){c = -.1}
+        if(c === "repulse"){c = .1 }
+        console.log(c);
+        userColors["affinity"] = c
+    })
+
+selectElement_submit_1.addEventListener("click", function() {
+    console.log(userColors)
+    userUpdate()
+})
+    let userUpdate = async () => {
+        try {
+            rule(eval(userColors["color1"]), eval(userColors["color2"]), eval(userColors["affinity"] * userColors["mag"]))
+        } catch (e) {
+            console.log(e)
+        }
+        rule(red, yellow, -0.03)
+        rule(yellow, red, .02)
+        rule(green, red, 0.03)
+        m.clearRect(0, 0, 500, 500)
+        draw(0, 0, "black", 500)
+        for (i = 0; i < particles.length; i++) {
+            draw(particles[i].x, particles[i].y, particles[i].color, 4)
+        }
+        requestAnimationFrame(userUpdate)
+    }
+
+
