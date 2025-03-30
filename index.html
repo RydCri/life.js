@@ -4,8 +4,46 @@
     <meta charset="UTF-8">
     <title>Life_sim</title>
 </head>
-<body>
+<body style="text-align: center">
+
+<h4>Life.js</h4>
+
 <canvas id="life" width="500" height="500"></canvas>
+
+<div id="btn_options">
+    <section>
+        <h3 style="font-family: sans-serif">New Rules</h3>
+<select name="color_select" id="color_select_1">
+    <option value="red">red</option>
+    <option value="green">green</option>
+    <option value="yellow">yellow</option>
+    <option value='' selected>Color</option>
+
+</select>
+    <select name="action_select" id="action_select_1">
+        <option value="attract">attract</option>
+        <option value="repulse">repulse</option>
+        <option value='' selected>Action</option>
+    </select>
+
+    <select name="color_select2" id="color_select_2">
+        <option value="red">red</option>
+        <option value="green">green</option>
+        <option value="yellow">yellow</option>
+        <option value='' selected>Color</option>
+    </select>
+    <input type="range" min="1" max="10" id="magnitude_1" name="magnitude">
+    <label for="magnitude_1">.001 - .1</label>
+    <input type="button" id="submit1" value="submit">
+    </section>
+    <section>    <input type="range" min="1" max="10" id="particle_mag" name="magnitude">
+        <label for="magnitude_1">Particles</label>
+    </section>
+
+</div>
+
+<br><br>
+
 <script src="life_sim.js"></script>
 </body>
 </html>
